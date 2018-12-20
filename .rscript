@@ -1,0 +1,69 @@
+# History files
+
+### Tocosh database script ###
+
+### AADATA
+aa = read.csv("aa.csv", header = F)
+D= aa[,1]; K= aa[,2]
+GA1 = aa[1:6,2]; GB2 = aa[7:12,2]; GC3 = aa[13:18,2]; GC4 = aa[19:24,2]; GC5 = aa[25:30,2]; GD6 = aa[31:36,2]; GE7 = aa[37:42,2]
+# shapiro.test(i)
+# Usar Kruskal wallis por ser no-paramétricas
+# kruskal.test(list(ctrl, ns, ex1, ex2, ex3, mz, ac))
+# introducir la prueba post-hoc
+....
+# Hacer una dataset
+aadata = data.frame(GA1, GB2, GC3, GC4, GC5, GD6, GE7) 
+kruskal.test(aadata)
+
+### UDATA
+ui = read.csv("/home/dchaupis/Documentos/Proyectos científicos/Tocosh study/ui.csv", header = F)
+GA1 = ui[1:10,2]; GB2 = ui[11:20,2]; GC3 = ui[21:30,2]; GC4 = ui[31:40,2]; GC5 = ui[41:50,2]; GD6 = ui[51:60,2]; GE7 = ui[61:70,2]
+Di= ui[,1]; Ki= ui[,2]
+#shapiro.test(i)
+# Usar Kruskal wallis por ser no-paramétricas
+#kruskal.test(list(ctrlui, nsui, ex1ui, ex2ui, ex3ui, mzui, acui))
+# introducir la prueba post-hoc
+...
+# Hacer una dataset
+uidata = data.frame(GA1, GB2, GC3, GC4, GC5, GD6, GE7)
+kruskal.test(uidata)
+
+### Beeswarm plot 1
+## anti-inflamatory index
+library(beeswarm)
+boxplot(aadata, outline = F, main = "Tocosh anti-imflamatory effect", xlab = "Treatments", ylab= "Paw edema of rats (g)", range = 3)
+beeswarm(aadata, col = c(1,2,3,4,8,6,7), pch = 16, method = "swarm", add = T)
+legend("topright", title = "Anti-imflamation (%)", legend=c("0.00","54.9","26.4","37.7","42.5","43.3","58.5"), col = c(1,2,3,4,8,6,7), pch = 16, cex = 0.47, text.font = 9, bty = "n")
+## ulcerative index
+library(beeswarm)
+boxplot(uidata, outline = F, main = "Tocosh anti-ulcerative effect", xlab = "Treatments", ylab= "Ulcerative size (mm)", range = 3)
+beeswarm(uidata, col = c(1,2,3,4,8,6,7), pch = 16, method = "swarm", add = T)
+legend("topright", title = "Anti-ulcerative (%)", legend=c("0.00","63.1","35.9","40.0","54.4","69.2","53.7"), col = c(1,2,3,4,8,6,7), pch = 16, cex = 0.47, text.font = 9, bty = "n")
+
+##para cada aa (opcional)
+library(PMCMR)
+posthoc.kruskal.nemenyi.test(x=K, g=D, data= aa, method = "Tukey")
+
+
+### Nivel de fidelidad, barras 
+fl = read.csv("/home/dchaupis/Documentos/Proyectos científicos/Tocosh study/fl.csv", header = T)
+usos = fl[,1]; rpta = fl[,2]; ptg = fl[,3]
+### Barplot
+library(ggplot2)
+ggplot(fl,aes(x=factor(rpta),y=fl,fill=factor(ptg)),title(main="Tocosh community aceptation"), color=factor(rpta)) +  
+#  coord_flip() +
+  stat_summary(fun.y=mean,position="stack",geom="bar") +
+  geom_bar(stat = "identity", position=position_dodge()) +
+  geom_text(aes(y=fl, ymax=fl, label=round(ptg,2)), position= position_dodge(width=0.9), vjust=-.5, color="black") +
+  scale_y_continuous("Acceptance level",limits=c(0,1),breaks=seq(0, 1, .25)) + 
+  scale_x_discrete("N° Participants") +
+  scale_fill_discrete(name ="Tocosh's uses (%)", labels=c("Mountain sickness","Astringent","Bronchodilator","Pregnant labour","Energizing","Anti-inflammatory","Natural antibiotic","Gastroprotective"))
+### solo falta ponerle title al plot de barras
+
+
+
+
+
+# RStudio files
+Rtocosh.Rproj.user/DChaupis
+
