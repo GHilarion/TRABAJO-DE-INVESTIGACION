@@ -65,5 +65,4 @@ ggplot(fl,aes(x=factor(rpta),y=fl,fill=factor(ptg)),title(main="Tocosh community
 
 
 # RStudio files
-Rtocosh.Rproj.user/DChaupis
 
